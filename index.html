@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rotate_banner</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    #main,#main1{
+        width: 1200px;
+        height: 300px;
+        margin: 200px auto;
+        background: #ccc;
+        position: relative;
+        -webkit-perspective: 800px;
+        -moz-perspective: 800px;
+        -o-perspective: 800px;
+        perspective: 800px;
+    }
+   .com_img{
+        -webkit-transform-style: preserve-3d;
+        -moz-transform-style: preserve-3d;
+        -o-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        -webkit-transition: all 0.5s ease-in;
+        -moz-transition: all 0.5s ease-in;
+        -o-transition: all 0.5s ease-in;
+        transition: all 0.5s ease-in;
+    }
+    .com_img img{
+        width: 400px;
+        height: 250px;
+    }
+    .com_img{
+        position: absolute;
+    }
+    /* 居中 */
+    .center_{
+        left: 50%;
+        margin-left: -200px;
+        -webkit-transform: scale(0.5);
+        -moz-transform: scale(0.5);
+        -o-transform: scale(0.5);
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    /* 居左 */
+    .left_{
+        left: 25%;
+        margin-left: -200px;
+        -webkit-transform: scale(0.7);
+        -moz-transform: scale(0.7);
+        -o-transform: scale(0.7);
+        transform: scale(0.7);
+        opacity: 1;
+    }
+    /* 居右 */
+    .right_{
+        left: 75%;
+        margin-left: -200px;
+        -webkit-transform: scale(0.7);
+        -moz-transform: scale(0.7);
+        -o-transform: scale(0.7);
+        transform: scale(0.7);
+        opacity: 1;
+    }
+    /* 最前居中 */
+    .mid_top{
+        left: 50%;
+        margin-left: -200px;
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1); 
+        z-index: 999;
+        opacity: 1;
+    }
+    .left_:after,.right_:after,.center_:after{
+        content: '';
+        display: block;
+        position: absolute;
+        top:0;
+        left:0;
+        width: 400px;
+        height: 250px;
+        background: black;
+        opacity: 0.5;
+    }
+</style>
+<body>
+    <div id="main">
+        <div class="com_img mid_top">
+            <img src="./images/1.jpg" alt="">
+        </div>
+        <div class="com_img right_">
+            <img src="./images/2.jpg" alt="">
+        </div>
+        <div class="com_img center_">
+            <img src="./images/3.jpg" alt="">
+        </div>
+        <div class="com_img center_">
+            <img src="./images/4.jpg" alt="">
+        </div>
+        <div class="com_img left_">
+            <img src="./images/5.jpg" alt="">
+        </div>
+    </div>
+
+    <div id="main1">
+        <div class="com_img mid_top">
+            <img src="./images/1.jpg" alt="">
+        </div>
+        <div class="com_img right_">
+            <img src="./images/2.jpg" alt="">
+        </div>
+        <div class="com_img center_">
+            <img src="./images/3.jpg" alt="">
+        </div>
+        <div class="com_img center_">
+            <img src="./images/4.jpg" alt="">
+        </div>
+        <div class="com_img left_">
+            <img src="./images/5.jpg" alt="">
+        </div>
+    </div>
+</body>
+<script src="jquery.js"></script>
+<script>
+    $.fn.banner_3d=function(){
+        //获取所有图片
+        var img_box=this.find('.com_img'),
+        num_of_img=img_box.length;
+        //点击事件
+        img_box.on('click',function(){
+            var this_index=$(this).index();
+            var prev_b=this_index-1;
+            if (prev_b<0) prev_b=num_of_img-1;
+            var next_b=++this_index;
+            if ( next_b>(num_of_img-1) )next_b=0;
+            img_box.addClass('center_').removeClass('left_').removeClass('right_');
+            $(this).addClass('mid_top').removeClass('right_').removeClass('left_').removeClass('center_');
+            img_box.eq(prev_b).addClass('left_').removeClass('right_').removeClass('mid_top');
+            img_box.eq(next_b).addClass('right_').removeClass('left_').removeClass('mid_top');  
+        });
+        return this;
+    }
+    $('#main').banner_3d();
+    $('#main1').banner_3d();
+</script>
+</html>
