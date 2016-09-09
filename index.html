@@ -108,6 +108,7 @@
         <div class="com_img left_">
             <img src="./images/5.jpg" alt="">
         </div>
+        <p class="num_of_img"><span class="_now_">1</span>/<span class="_zong_"></span></p>
     </div>
 
     <div id="main1">
@@ -126,17 +127,35 @@
         <div class="com_img left_">
             <img src="./images/5.jpg" alt="">
         </div>
+        <p class="num_of_img"><span class="_now_">1</span>/<span class="_zong_"></span></p>
     </div>
+    <div class="mask"></div>
+    <img src="" alt="" class="beBig">
 </body>
 <script src="jquery.js"></script>
 <script>
     $.fn.banner_3d=function(){
         //获取所有图片
         var img_box=this.find('.com_img'),
-        num_of_img=img_box.length;
+        num_of_img=img_box.length,
+        now_=this.find('._now_'),
+        zong_=this.find('._zong_');
+        zong_.html(num_of_img);
+
+
+        function toBe(){
+            var src_=$(this).attr('src');
+            $('.beBig').attr('src',src_);
+            $('.mask').fadeIn();
+            $('.beBig').fadeIn();
+            $('.beBig_close').fadeIn();
+        }
+        $('.mid_top img').on('click',toBe);
+
         //点击事件
         img_box.on('click',function(){
             var this_index=$(this).index();
+            now_.html(this_index+1);
             var prev_b=this_index-1;
             if (prev_b<0) prev_b=num_of_img-1;
             var next_b=++this_index;
@@ -144,8 +163,16 @@
             img_box.addClass('center_').removeClass('left_').removeClass('right_');
             $(this).addClass('mid_top').removeClass('right_').removeClass('left_').removeClass('center_');
             img_box.eq(prev_b).addClass('left_').removeClass('right_').removeClass('mid_top');
-            img_box.eq(next_b).addClass('right_').removeClass('left_').removeClass('mid_top');  
+            img_box.eq(next_b).addClass('right_').removeClass('left_').removeClass('mid_top'); 
+            $('.mid_top img').unbind('click',toBe);
+            $('.mid_top img').on('click',toBe);
+
         });
+        $('.mask').on('click',function(){
+            //$('.mask').fadeOut();
+            $('.beBig').fadeOut();
+            $(this).fadeOut();
+        })
         return this;
     }
     $('#main').banner_3d();
